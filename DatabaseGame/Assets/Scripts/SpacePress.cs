@@ -5,6 +5,8 @@ using TMPro;
 
 public class SpacePress : MonoBehaviour
 {
+    [SerializeField] HighScoreHandler highScoreHandler;
+
     public Animator spaceAnim;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI endScoreText;
