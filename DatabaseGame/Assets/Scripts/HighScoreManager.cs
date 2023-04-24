@@ -33,9 +33,7 @@ public class HighScoreManager : MonoBehaviour
 
         DeleteExtraScores();
 
-        //InsertScore("Test", 400);
-
-        
+        CreateTable(); 
 
         ShowScores();
     }
@@ -45,11 +43,27 @@ public class HighScoreManager : MonoBehaviour
         dataScore = spacePress.score;
     }
 
+    private void CreateTable()
+    {
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+
+            using (IDbCommand dbCmd = dbConnection.CreateCommand())
+            {
+                string sqlQuery = string.Format("CREATE TABLE if not exists HighScores (PlayerID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , Name TEXT NOT NULL , Score INTEGER NOT NULL)");
+
+                dbCmd.CommandText = sqlQuery;
+                dbCmd.ExecuteScalar();
+                dbConnection.Close();
+            }
+        }
+    }
+
     public void EnterName()
     {
         if(enterName.text != string.Empty)
         {
-           // int score = UnityEngine.Random.Range(1, 500);
             InsertScore(enterName.text, dataScore);
             enterName.text = string.Empty;
 
@@ -154,13 +168,10 @@ public class HighScoreManager : MonoBehaviour
             if(i <= highScores.Count - 1)
             {
                 GameObject tmpObjec = Instantiate(scorePrefab);
-
                 HighScore tmpScore = highScores[i];
 
                 tmpObjec.GetComponent<HighScoreScript>().SetScore(tmpScore.Name, tmpScore.Score.ToString(), "#" + (i + 1).ToString());
-
                 tmpObjec.transform.SetParent(scoreParent);
-
                 tmpObjec.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
             }
         }
