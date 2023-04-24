@@ -13,10 +13,10 @@ public class SpacePress : MonoBehaviour
 
     public GameObject gameOverScreen;
 
-    private int score;
+    public int score;
     public bool isGameOn = false;
     public bool isGameOver;
-    public float timeLeft = 30.0f;
+    public float timeLeft = 10.0f;
 
     private void Update()
     {
@@ -56,11 +56,4 @@ public class SpacePress : MonoBehaviour
         gameOverScreen.SetActive(true);
         isGameOver = true;
     }
-
-   /* public IEnumerator StartTimer()
-    {
-        isGameOn = true;
-        yield return new WaitForSeconds(30);
-        gameOverScreen.SetActive(true);
-    }*/
 }
